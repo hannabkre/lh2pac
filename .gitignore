@@ -1,0 +1,8 @@
+*/.idea
+**/__pycache__
+presentation/out
+*presentation/out/main.pdf
+project/build
+project/source/examples
+project/source/results
+MARILib_obj_edu/example/.pytest_cache
