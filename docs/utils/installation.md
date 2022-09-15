@@ -1,14 +1,8 @@
-﻿# The LH2PAC project
+# Installation
 
-LH2PAC is a Python-based academic project proposed by Matthias De Lozzo and Thierry Druot
-in the frame of the course **"Metamodels"**
-from the [ModIA program](https://www.math.insa-toulouse.fr/fr/enseignement/apprentissage-modia.html).
+## Git
 
-## Installation
-
-### Git
-
-#### Clone (only once)
+### Clone (only once)
 
 In your favorite working directory,
 e.g. `"my_wd"`,
@@ -19,7 +13,7 @@ git clone git@gitlab.com:MatthiasDeLozzo/lh2pac.git
 
 This will create a directory `"lh2pac"` in `"my_wd"`.
 
-#### Create a working branch (only once)
+### Create a working branch (only once)
 
 In the directory `"lh2pac"`:
 
@@ -27,7 +21,7 @@ In the directory `"lh2pac"`:
 git checkout origin/modia2024 -b my_modia2024  
 ```
 
-#### Rebase your working branch
+### Rebase your working branch
 
 From time to time, 
 I can update the _git_ project with miscellaneous information; 
@@ -43,7 +37,7 @@ git fetch origin
 git rebase origin/modia2024
 ```
 
-### Create a virtual environment (only once)
+## Create a virtual environment (only once)
 
 In the directory `"lh2pac"`:
 
@@ -65,7 +59,7 @@ In the directory `"lh2pac"`:
     .venv\Scripts\deactivate.bat
     ```
 
-### Configure your IDE (only once)
+## Configure your IDE (only once)
 
 Select the Python interpreter: 
 
@@ -77,7 +71,7 @@ Select the Python interpreter:
 
     `"lh2pac\.venv\Scripts\python.exe"`
 
-### Use your virtual environment in a Python console
+## Use your virtual environment in a Python console
 
 In the directory `"lh2pac"`:
 
@@ -95,9 +89,9 @@ In the directory `"lh2pac"`:
 
 and use Python as usual.
 
-### Compile the documentation
+## Compile the documentation
 
-#### Compile each time you save a file (temporary doc)
+### Compile each time you save a file (temporary doc)
 
 === "Linux"
 
@@ -118,7 +112,7 @@ Then,
 every time you save a file,
 the documentation will be updated automatically.
 
-#### Compile (permanent doc)
+### Compile (permanent doc)
 
 The previous command does not save the website;
 to do so, use the following command.
@@ -134,5 +128,3 @@ to do so, use the following command.
     ```
     mkdocs.exe build
     ```
-
-The LH2PAC adventure starts here!

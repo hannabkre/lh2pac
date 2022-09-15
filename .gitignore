@@ -5,4 +5,4 @@ presentation/out
 project/build
 project/source/examples
 project/source/results
-MARILib_obj_edu/example/.pytest_cache
+src/lh2pac/example/.pytest_cache

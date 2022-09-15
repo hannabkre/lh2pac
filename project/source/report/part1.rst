@@ -1,2 +1,0 @@
-Surrogate modeling and optimization
-===================================
