@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Created on Thu Jan 20 20:20:20 2020
+"""Created on Thu Jan 20 20:20:20 2020.
 
 @author: Conceptual Airplane Design & Operations (CADO team)
          Nicolas PETEILH, Pascal ROCHES, Nicolas MONROLIN, Thierry DRUOT
@@ -8,15 +7,15 @@ Created on Thu Jan 20 20:20:20 2020
 """
 
 import numpy as np
-
-from lh2pac.marilib.utils import unit
-from lh2pac.marilib.aircraft.aircraft_root import Arrangement, Aircraft
-from lh2pac.marilib.aircraft.requirement import Requirement
-from lh2pac.marilib.utils.read_write import MarilibIO
+from lh2pac.marilib.aircraft.aircraft_root import Aircraft
+from lh2pac.marilib.aircraft.aircraft_root import Arrangement
 from lh2pac.marilib.aircraft.design import process
+from lh2pac.marilib.aircraft.requirement import Requirement
+from lh2pac.marilib.utils import unit
+from lh2pac.marilib.utils.read_write import MarilibIO
 
 
-def fct_turbofan_h2(techno, design, mode, title=""):
+def fct_turbofan_h2(techno, design, mode, title="", show=True):
     # Architecture parameters
     # ---------------------------------------------------------------------------------------------------------------------
     agmt = Arrangement(
@@ -125,7 +124,7 @@ def fct_turbofan_h2(techno, design, mode, title=""):
         )  # Run an MDA on the object (All internal constraints will be solved)
 
     io = MarilibIO()
-    json = io.to_json_file(
+    io.to_json_file(
         ac, "aircraft_output_data"
     )  # Write all output data into a json readable format
     # dico = io.from_string(json)
@@ -152,7 +151,7 @@ def fct_turbofan_h2(techno, design, mode, title=""):
         pass
 
     elif mode == "draw":
-        ac.draw.view_3d(title)  # Draw a 3D view diagram
+        return ac.draw.view_3d(title, show=show)  # Draw a 3D view diagram
 
     elif mode == "plr":
         ac.draw.payload_range("This_plot")  # Draw a payload range diagram
@@ -165,7 +164,7 @@ def fct_turbofan_h2(techno, design, mode, title=""):
             "aircraft.airframe.wing.area",
         ]  # Main design variables
 
-        var_bnd = [
+        [
             [
                 unit.N_kN(80.0),
                 unit.N_kN(200.0),
@@ -174,39 +173,16 @@ def fct_turbofan_h2(techno, design, mode, title=""):
         ]
 
         # Operational constraints definition
-        cst = [
-            "aircraft.performance.take_off.tofl_req - aircraft.performance.take_off.tofl_eff",
-            "aircraft.performance.approach.app_speed_req - aircraft.performance.approach.app_speed_eff",
-            "aircraft.performance.mcl_ceiling.vz_eff - aircraft.performance.mcl_ceiling.vz_req",
-            "aircraft.performance.mcr_ceiling.vz_eff - aircraft.performance.mcr_ceiling.vz_req",
-            "aircraft.performance.oei_ceiling.path_eff - aircraft.performance.oei_ceiling.path_req",
-            "aircraft.performance.time_to_climb.ttc_req - aircraft.performance.time_to_climb.ttc_eff",
-            "aircraft.weight_cg.mfw - aircraft.performance.mission.nominal.fuel_total",
-            "aircraft.weight_cg.mfw - aircraft.performance.mission.nominal.fuel_total",
-            "aircraft.requirement.max_body_aspect_ratio - aircraft.airframe.body.aspect_ratio",
-        ]
 
         # Magnitude used to scale constraints
-        cst_mag = [
-            "aircraft.performance.take_off.tofl_req",
-            "aircraft.performance.approach.app_speed_req",
-            "unit.mps_ftpmin(100.)",
-            "unit.mps_ftpmin(100.)",
-            "aircraft.performance.oei_ceiling.path_req",
-            "aircraft.performance.time_to_climb.ttc_req",
-            "aircraft.weight_cg.mfw",
-            "aircraft.requirement.max_body_aspect_ratio",
-        ]
 
         # Optimization criteria
-        crt = "aircraft.weight_cg.mtow"
 
         # Perform an MDF optimization process
-        opt = process.Optimizer()
+        process.Optimizer()
         # opt.mdf(ac, var,var_bnd, cst,cst_mag, crt,method='trust-constr')
         # opt.mdf(ac, var,var_bnd, cst,cst_mag, crt)
         # algo_points = opt.computed_points
-        algo_points = None
 
         # Configure design space exploration
         # ---------------------------------------------------------------------------------------------------------------------
@@ -291,9 +267,16 @@ def fct_turbofan_h2(techno, design, mode, title=""):
             "FUEL",
             "far",
         ]  # Constrained performances, keys are from data
-        bound = np.array(
-            ["ub", "ub", "lb", "lb", "lb", "ub", "lb", "ub"]
-        )  # ub: upper bound, lb: lower bound
+        bound = np.array([
+            "ub",
+            "ub",
+            "lb",
+            "lb",
+            "lb",
+            "ub",
+            "lb",
+            "ub",
+        ])  # ub: upper bound, lb: lower bound
         color = [
             "red",
             "blue",
@@ -323,108 +306,54 @@ def fct_turbofan_h2(techno, design, mode, title=""):
 
 
 def str_h2turbofan(techno, design, data):
-    return "\n".join(
-        [
-            "---------------------------------------------------------------------------",
-            "Drag factor = %8.3f (0.99 =< kcx =< 1.03)" % techno["drag"],
-            "SFC factor = %8.3f (0.99 =< ksfc =< 1.03)" % techno["sfc"],
-            "Mass factor = %8.3f (0.99 =< kmass =< 1.03)" % techno["mass"],
-            "Tank Volumetric Index = %8.3f m3-LH2 / m3-(LH2+Tank), (0.6 =< vi =< 0.85)"
-            % techno["tvi"],
-            "Tank Gravimetric Index = %8.3f kg-LH2 / kg-(LH2+Tank), (0.25 =< gi =< 0.305)"
-            % techno["tgi"],
-            "",
-            "Reference thrust = %8.1f kN, (100 =< thrust =< 150)"
-            % unit.kN_N(design["thrust"]),
-            "By Pass Ratio = %8.1f (5 =< bpr =< 12)" % design["bpr"],
-            "Reference area = %8.1f m2, (120 =< area =< 200)" % design["area"],
-            "Aspect ratio = %8.1f (7 =< ar =< 12)" % design["aspect_ratio"],
-            "---------------------------------------------------------------------------",
-            "Criterion, Max Take Off Weight = %8.1f kg" % data["mtow"],
-            "Criterion, Cost mission fuel block = %8.1f kg" % data["fuel"],
-            "Criterion, Cash Operating Cost = %8.1f $/trip" % data["coc"],
-            "",
-            "Constraint, Take Off Field Length = %8.1f m (must be =< 2200 m)"
-            % data["tofl"],
-            "Constraint, Approach speed = %8.1f kt (must be =< 137 kt)"
-            % unit.kt_mps(data["vapp"]),
-            "Constraint, Vertical speed, MCL rating, TOC = %8.1f ft/min (must be >= 300 ft/min)"
-            % unit.ftpmin_mps(data["vz_mcl"]),
-            "Constraint, Vertical speed, MCR rating, TOC = %8.1f ft/min (must be >= 0 ft/min)"
-            % unit.ftpmin_mps(data["vz_mcr"]),
-            "Constraint, One Engine Inoperative climb path = %8.2f %% (must be >= 1.1%%)"
-            % (data["oei_path"] * 100),
-            "Constraint, Time To Climb = %8.1f min (must be =< 25 min)"
-            % unit.min_s(data["ttc"]),
-            "Constraint, fuselage aspect ratio = %8.3f (must be =< 13.4)" % data["far"],
-        ]
-    )
+    return "\n".join([
+        "---------------------------------------------------------------------------",
+        "Drag factor = {:8.3f} (0.99 =< kcx =< 1.03)".format(techno["drag"]),
+        "SFC factor = {:8.3f} (0.99 =< ksfc =< 1.03)".format(techno["sfc"]),
+        "Mass factor = {:8.3f} (0.99 =< kmass =< 1.03)".format(techno["mass"]),
+        "Tank Volumetric Index = {:8.3f} m3-LH2 / m3-(LH2+Tank), (0.6 =< vi =< 0.85)".format(
+            techno["tvi"]
+        ),
+        "Tank Gravimetric Index = {:8.3f} kg-LH2 / kg-(LH2+Tank), (0.25 =< gi =< 0.305)".format(
+            techno["tgi"]
+        ),
+        "",
+        "Reference thrust = {:8.1f} kN, (100 =< thrust =< 150)".format(
+            unit.kN_N(design["thrust"])
+        ),
+        "By Pass Ratio = {:8.1f} (5 =< bpr =< 12)".format(design["bpr"]),
+        "Reference area = {:8.1f} m2, (120 =< area =< 200)".format(design["area"]),
+        "Aspect ratio = {:8.1f} (7 =< ar =< 12)".format(design["aspect_ratio"]),
+        "---------------------------------------------------------------------------",
+        "Criterion, Max Take Off Weight = {:8.1f} kg".format(data["mtow"]),
+        "Criterion, Cost mission fuel block = {:8.1f} kg".format(data["fuel"]),
+        "Criterion, Cash Operating Cost = {:8.1f} $/trip".format(data["coc"]),
+        "",
+        "Constraint, Take Off Field Length = {:8.1f} m (must be =< 2200 m)".format(
+            data["tofl"]
+        ),
+        "Constraint, Approach speed = {:8.1f} kt (must be =< 137 kt)".format(
+            unit.kt_mps(data["vapp"])
+        ),
+        "Constraint, Vertical speed, MCL rating, TOC = {:8.1f} ft/min (must be >= 300 ft/min)".format(
+            unit.ftpmin_mps(data["vz_mcl"])
+        ),
+        "Constraint, Vertical speed, MCR rating, TOC = {:8.1f} ft/min (must be >= 0 ft/min)".format(
+            unit.ftpmin_mps(data["vz_mcr"])
+        ),
+        "Constraint, One Engine Inoperative climb path = %8.2f %% (must be >= 1.1%%)"
+        % (data["oei_path"] * 100),
+        "Constraint, Time To Climb = {:8.1f} min (must be =< 25 min)".format(
+            unit.min_s(data["ttc"])
+        ),
+        "Constraint, fuselage aspect ratio = {:8.3f} (must be =< 13.4)".format(
+            data["far"]
+        ),
+    ])
 
 
 def print_data(techno, design, data):
-    print("---------------------------------------------------------------------------")
-    print("Drag factor = ", "%8.3f" % techno["drag"], " (0.99 =< kcx =< 1.03)")
-    print("SFC factor = ", "%8.3f" % techno["sfc"], " (0.99 =< ksfc =< 1.03)")
-    print("Mass factor = ", "%8.3f" % techno["mass"], " (0.99 =< kmass =< 1.03)")
-    print(
-        "Tank Volumetric Index = ",
-        "%8.3f" % techno["tvi"],
-        " m3-LH2 / m3-(LH2+Tank), (0.6 =< vi =< 0.85)",
-    )
-    print(
-        "Tank Gravimetric Index = ",
-        "%8.3f" % techno["tgi"],
-        " kg-LH2 / kg-(LH2+Tank), (0.25 =< gi =< 0.305)",
-    )
-    print("")
-    print(
-        "Reference thrust = ",
-        "%8.1f" % unit.kN_N(design["thrust"]),
-        " kN, (100 =< thrust =< 150)",
-    )
-    print("By Pass Ratio = ", "%8.1f" % design["bpr"], " (5 =< bpr =< 12)")
-    print("Reference area = ", "%8.1f" % design["area"], " m2, (120 =< area =< 200)")
-    print("Aspect ratio = ", "%8.1f" % design["aspect_ratio"], "(7 =< ar =< 12)")
-    print("---------------------------------------------------------------------------")
-    print("Criterion, Max Take Off Weight = ", "%8.1f" % data["mtow"], " kg")
-    print("Criterion, Cost mission fuel block = ", "%8.1f" % data["fuel"], " kg")
-    print("Criterion, Cash Operating Cost = ", "%8.1f" % data["coc"], " $/trip")
-    print("")
-    print(
-        "Constraint, Take Off Field Length = ",
-        "%8.1f" % data["tofl"],
-        " m (must be =< 2200 m)",
-    )
-    print(
-        "Constraint, Approach speed = ",
-        "%8.1f" % unit.kt_mps(data["vapp"]),
-        " kt (must be =< 137 kt)",
-    )
-    print(
-        "Constraint, Vertical speed, MCL rating, TOC = ",
-        "%8.1f" % unit.ftpmin_mps(data["vz_mcl"]),
-        " ft/min (must be >= 300 ft/min)",
-    )
-    print(
-        "Constraint, Vertical speed, MCR rating, TOC = ",
-        "%8.1f" % unit.ftpmin_mps(data["vz_mcr"]),
-        " ft/min (must be >= 300 ft/min)",
-    )
-    print(
-        "Constraint, One Engine Inoperative climb path = ",
-        "%8.2f" % (data["oei_path"] * 100),
-        " % (must be >= 1.1%)",
-    )
-    print(
-        "Constraint, Time To Climb = ",
-        "%8.1f" % unit.min_s(data["ttc"]),
-        " min (must be =< 25 min)",
-    )
-    print(
-        "Constraint, fuselage aspect ratio = ",
-        "%8.3f" % data["far"],
-        " (must be =< 13.4)",
-    )
+    pass
 
 
 if __name__ == "__main__":
@@ -435,7 +364,6 @@ if __name__ == "__main__":
     mode = "eval"  # Can be "eval", "draw", "plr", "ds"
 
     data = fct_turbofan_h2(techno, design, mode)
-    print(data)
 
     print_data(techno, design, data)
 

@@ -4,6 +4,8 @@ from gemseo.utils.data_conversion import split_array_to_dict_of_arrays
 
 
 class MyMLAlgo(MDODiscipline):
+    """foo."""
+
     def __init__(self, algo, input_names, output_names):
         self.algo = algo
         super().__init__()

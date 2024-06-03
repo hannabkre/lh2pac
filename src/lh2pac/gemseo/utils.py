@@ -1,16 +1,16 @@
-from typing import Iterable
-from typing import Mapping
-
-from gemseo.core.scenario import Scenario
-from gemseo.algos.opt_problem import OptimizationProblem
-from numpy import array
-from numpy import atleast_1d
-from numpy import ndarray
+from collections.abc import Iterable
+from collections.abc import Mapping
 
 from lh2pac.gemseo.discipline import H2TurboFan
 from lh2pac.marilib.utils import unit
 from lh2pac.turbofan_h2_function import fct_turbofan_h2
 from lh2pac.turbofan_h2_function import str_h2turbofan
+from numpy import array
+from numpy import atleast_1d
+from numpy import ndarray
+
+from gemseo.algos.opt_problem import OptimizationProblem
+from gemseo.core.scenario import Scenario
 
 
 def _get_variables(
@@ -66,11 +66,11 @@ def _get_data(obj):
     return _get_optimum(obj)
 
 
-def draw_aircraft(obj=None, title=""):
+def draw_aircraft(obj=None, title="", show=True):
     data = _get_data({} if obj is None else obj)
     design_data = _get_variables(data, H2TurboFan.DESIGN_VARIABLES)
     techno_data = _get_variables(data, H2TurboFan.TECHNOLOGICAL_VARIABLES)
-    fct_turbofan_h2(techno_data, design_data, "draw", title=title)
+    return fct_turbofan_h2(techno_data, design_data, "draw", title=title, show=show)
 
 
 def get_aircraft_data(obj):
@@ -85,7 +85,7 @@ def _get_optimum(problem):
     if not isinstance(problem, OptimizationProblem):
         problem = OptimizationProblem.from_hdf(problem)
 
-    f_opt, x_opt, is_feas, c_opt, _ = problem.get_optimum()
+    _f_opt, x_opt, _is_feas, _c_opt, _ = problem.get_optimum()
     y_opt = problem.database[x_opt]
     x_opt = {
         name: x_opt[i] for i, name in enumerate(problem.design_space.variable_names)

@@ -1,28 +1,22 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jan 24 23:22:21 2019
+"""Created on Thu Jan 24 23:22:21 2019.
 
 :author: DRUOT Thierry, PETEILH Nicolas and MONROLIN Nicolas
 """
 
-import numpy as np
-
 import matplotlib.pyplot as plt
-
+import numpy as np
+from lh2pac.marilib.aircraft.airframe.component import Nacelle
+from lh2pac.marilib.aircraft.airframe.component import Pod
 from lh2pac.marilib.utils import unit
 
-from lh2pac.marilib.aircraft.airframe.component import Nacelle, Pod
 
-
-class Drawing(object):
+class Drawing:
     def __init__(self, aircraft):
         self.aircraft = aircraft
 
     def payload_range(self, window_title):
-        """
-        Print the payload - range diagram
-        """
+        """Print the payload - range diagram."""
         plot_title = self.aircraft.name
 
         payload = [
@@ -44,7 +38,7 @@ class Drawing(object):
             unit.NM_m(self.aircraft.performance.mission.nominal.range),
         ]
 
-        fig, axes = plt.subplots(1, 1)
+        fig, _axes = plt.subplots(1, 1)
         fig.canvas.set_window_title(window_title)
         fig.suptitle(plot_title, fontsize=14)
 
@@ -60,9 +54,7 @@ class Drawing(object):
         plt.show()
 
     def get_3d_curves(self):
-        """
-        Build 3D curves to print the plane
-        """
+        """Build 3D curves to print the plane."""
         component = {
             "name": self.aircraft.name,
             "surface": [],
@@ -75,58 +67,63 @@ class Drawing(object):
             if data is not None:
                 typ = comp.get_component_type()
                 if typ in ["wing", "htp", "vtp"]:
-                    component["surface"].append(
-                        {"le": data["le"], "te": data["te"], "toc": data["toc"]}
-                    )
+                    component["surface"].append({
+                        "le": data["le"],
+                        "te": data["te"],
+                        "toc": data["toc"],
+                    })
                 elif typ in ["body", "wing_pod_tank", "piggyback_tank"]:
-                    component["body"].append(
-                        {"xz": data["body_xz"], "xy": data["body_xy"]}
-                    )
+                    component["body"].append({
+                        "xz": data["body_xz"],
+                        "xy": data["body_xy"],
+                    })
                 if typ == "piggyback_tank":  # Treat Piggy Back exception
                     pyl_data = comp.pylon_sketch()
-                    component["surface"].append(
-                        {
-                            "le": pyl_data["fle"],
-                            "te": pyl_data["fte"],
-                            "toc": pyl_data["toc"],
-                        }
-                    )
-                    component["surface"].append(
-                        {
-                            "le": pyl_data["ble"],
-                            "te": pyl_data["bte"],
-                            "toc": pyl_data["toc"],
-                        }
-                    )
+                    component["surface"].append({
+                        "le": pyl_data["fle"],
+                        "te": pyl_data["fte"],
+                        "toc": pyl_data["toc"],
+                    })
+                    component["surface"].append({
+                        "le": pyl_data["ble"],
+                        "te": pyl_data["bte"],
+                        "toc": pyl_data["toc"],
+                    })
 
         for comp in self.aircraft.airframe:
             if issubclass(type(comp), Nacelle):
                 data = comp.sketch_3view()
-                component["nacelle"].append(
-                    {"le": data["fle"], "te": data["fte"], "toc": data["toc"]}
-                )
-                component["nacelle"].append(
-                    {"le": data["cle"], "te": data["cte"], "toc": data["toc"]}
-                )
+                component["nacelle"].append({
+                    "le": data["fle"],
+                    "te": data["fte"],
+                    "toc": data["toc"],
+                })
+                component["nacelle"].append({
+                    "le": data["cle"],
+                    "te": data["cte"],
+                    "toc": data["toc"],
+                })
                 if comp.get_component_type() in [
                     "body_nacelle",
                     "body_tail_nacelle",
                     "pod_tail_nacelle",
                     "piggyback_tail_nacelle",
                 ]:
-                    component["surface"].append(
-                        {"le": data["s1le"], "te": data["s1te"], "toc": data["toc"]}
-                    )
-                    component["surface"].append(
-                        {"le": data["s2le"], "te": data["s2te"], "toc": data["toc"]}
-                    )
+                    component["surface"].append({
+                        "le": data["s1le"],
+                        "te": data["s1te"],
+                        "toc": data["toc"],
+                    })
+                    component["surface"].append({
+                        "le": data["s2le"],
+                        "te": data["s2te"],
+                        "toc": data["toc"],
+                    })
 
         return component
 
-    def view_3d(self, title=""):
-        """
-        Build a 3 views drawing of the airplane
-        """
+    def view_3d(self, title="", show: bool = True):
+        """Build a 3 views drawing of the airplane."""
         plot_title = title or self.aircraft.name
 
         # Drawing_ box
@@ -284,5 +281,7 @@ class Drawing(object):
                     zorder=znac[typ]["yz"],
                 )  # draw contour
 
-        plt.show()
-        return
+        if show:
+            plt.show()
+            return None
+        return plt.gca()
