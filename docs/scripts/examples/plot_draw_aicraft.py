@@ -1,6 +1,6 @@
 """# Draw an aircraft"""
 
-from lh2pac.gemseo.utils import draw_aircraft
+from gemseo_oad_training.utils import draw_aircraft
 
 # %%
 # First,
@@ -9,10 +9,10 @@ draw_aircraft()
 
 # %%
 # Then,
-# we draw an aircraft with a higher aspect ratio:
-draw_aircraft({"aspect_ratio": 12}, "Higher aspect ratio")
+# we draw an aircraft with a larger wing area:
+draw_aircraft(area=200, title="Area = 200")
 
 # %%
 # Lastly,
-# we draw an aircraft with a lower aspect ratio:
-draw_aircraft({"aspect_ratio": 7}, "Lower aspect ratio")
+# we draw an aircraft with a smaller wing area:
+draw_aircraft(area=80, title="Area = 80")

@@ -1,5 +1,5 @@
 """
-# Design of experiments
+# Use a design of experiments
 
 The `DOEScenario` defines an evaluation problem
 from one or more disciplines,
@@ -14,11 +14,10 @@ over the design space $[-2,2]^2$
 with a latin hypercube sampling (LHS) algorithm
 improved by simulated annealing.
 """
-
 from gemseo import configure_logger
-from gemseo import create_design_space
-from gemseo import create_discipline
-from gemseo import create_scenario
+from gemseo.algos.design_space import DesignSpace
+from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.scenarios.doe_scenario import DOEScenario
 
 # %%
 # First,
@@ -28,9 +27,8 @@ configure_logger()
 # %%
 # Then,
 # we create a discipline to evaluate $(1-x)^2+100*(y-x^2)^2$:
-discipline = create_discipline(
-    "AnalyticDiscipline",
-    expressions={"z": "(1-x)**2+100*(y-x**2)**2"},
+discipline = AnalyticDiscipline(
+    {"z": "(1-x)**2+100*(y-x**2)**2"},
     name="Rosenbrock",
 )
 # %%
@@ -43,17 +41,15 @@ discipline = create_discipline(
 #
 # Then,
 # we create the design space $[-2,2]^2$:
-design_space = create_design_space()
-design_space.add_variable("x", l_b=-2, u_b=2)
-design_space.add_variable("y", l_b=-2, u_b=2)
+design_space = DesignSpace()
+design_space.add_variable("x", lower_bound=-2, upper_bound=2)
+design_space.add_variable("y", lower_bound=-2, upper_bound=2)
 
 # %%
 # Thirdly,
 # we create a `DOEScenario` from this discipline and this design space:
 disciplines = [discipline]
-scenario = create_scenario(
-    disciplines, "DisciplinaryOpt", "z", design_space, scenario_type="DOE"
-)
+scenario = DOEScenario(disciplines, "z", design_space, formulation_name="DisciplinaryOpt")
 # %%
 # !!! note
 #
@@ -80,7 +76,7 @@ scenario = create_scenario(
 #
 # Now,
 # we can sample the discipline to get 100 evaluations of the triple $(x,y,z)$:
-scenario.execute({"algo": "OT_OPT_LHS", "n_samples": 100})
+scenario.execute(algo_name="OT_OPT_LHS", n_samples=100)
 
 # %%
 #

@@ -41,7 +41,7 @@ git rebase origin/modia2024
 
 In the directory `"lh2pac"`:
 
-=== "Linux"
+=== ":fontawesome-brands-linux: Linux"
 
     ```
     python -m venv .venv
@@ -50,7 +50,7 @@ In the directory `"lh2pac"`:
     source .venv/bin/deactivate
     ```
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
     ```
     python -m venv .venv
@@ -63,11 +63,11 @@ In the directory `"lh2pac"`:
 
 Select the Python interpreter: 
 
-=== "Linux"
+=== ":fontawesome-brands-linux: Linux"
 
     `"my_wd/lh2pac/.venv/bin/python"`
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
     `"lh2pac\.venv\Scripts\python.exe"`
 
@@ -75,13 +75,13 @@ Select the Python interpreter:
 
 In the directory `"lh2pac"`:
 
-=== "Linux"
+=== ":fontawesome-brands-linux: Linux"
 
     ```
     source .venv/bin/activate
     ```
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
     ```
     .venv\Scripts\activate.bat
@@ -93,13 +93,13 @@ and use Python as usual.
 
 ### Compile each time you save a file (temporary doc)
 
-=== "Linux"
+=== ":fontawesome-brands-linux: Linux"
 
     ```
     mkdocs serve
     ```
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
     ```
     mkdocs.exe serve
@@ -117,13 +117,13 @@ the documentation will be updated automatically.
 The previous command does not save the website;
 to do so, use the following command.
 
-=== "Linux"
+=== ":fontawesome-brands-linux: Linux"
 
     ```
     mkdocs build
     ```
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
     ```
     mkdocs.exe build

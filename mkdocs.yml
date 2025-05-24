@@ -17,6 +17,7 @@ theme:
         icon: material/lightbulb
         name: Switch to light mode
   icon:
+    logo: material/airplane
     repo: fontawesome/brands/gitlab
 
 plugins:
@@ -60,7 +61,7 @@ plugins:
 nav:
 - Presentation:
   - Overview: index.md
-  - The use case: presentation/use_case.md
+  - The use cases: presentation/use_cases.md
   - The deliverables: presentation/deliverables.md
   - The important dates: presentation/dates.md
 - Utils:
@@ -70,7 +71,7 @@ nav:
   - API documentation: reference/lh2pac/
 - Scripts: generated/scripts/project
 - Report:
-  - Metadata: report/index.md
+  - Report: report/index.md
   - Introduction: report/introduction.md
   - Part 1: report/part1.md
   - Part 2: report/part2.md

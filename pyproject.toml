@@ -18,8 +18,10 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.9, <3.12"
 dependencies = [
-    "gemseo[all] >= 5.3.0",
-    "gemseo-mlearning >= 1.1.2",
+    "gemseo[all] >= 6.1.0",
+    "gemseo-oad-training @ git+https://gitlab.com/gemseo/dev/gemseo-oad-training.git@develop",
+    "gemseo-mlearning >= 2.0.1",
+    "gemseo-umdo >= 4.1.0",
     "griffe-inherited-docstrings",
     "mkdocs-gallery",
     "mkdocs-section-index",

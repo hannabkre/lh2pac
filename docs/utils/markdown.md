@@ -71,27 +71,27 @@ This is a hyperlink to an external content: [DuckDuckGo](https://duckduckgo.com/
     - An item.
     - Another item.
 
-       * A sub-item (pay attention to the indentation: 4 spaces).
-       * Another sub-item.
+        * A sub-item (pay attention to the indentation: 4 spaces).
+        * Another sub-item.
 
     - Another item
       written on two lines.
 
-       1. A first sub-item (pay attention to the indentation: 4 spaces).
-       2. A second sub-item.
+        1. A first sub-item (pay attention to the indentation: 4 spaces).
+        2. A second sub-item.
 ```
 
 - An item.
 - Another item.
 
-   * A sub-item (pay attention to the indentation: 4 spaces).
-   * Another sub-item.
+    * A sub-item (pay attention to the indentation: 4 spaces).
+    * Another sub-item.
 
 - Another item
   written on two lines.
 
-   1. A first sub-item (pay attention to the indentation: 4 spaces).
-   2. A second sub-item.
+    1. A first sub-item (pay attention to the indentation: 4 spaces).
+    2. A second sub-item.
 
 ### Numbered list
 

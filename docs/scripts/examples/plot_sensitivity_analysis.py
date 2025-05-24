@@ -1,5 +1,5 @@
 r"""
-# Sensitivity analysis
+# Perform a sensitivity analysis
 
 In this example,
 we will use the Sobol' analysis to quantify
@@ -13,16 +13,15 @@ where $x_1,x_2,x_3\in[-\pi,\pi]$.
 import pprint
 
 from gemseo.algos.parameter_space import ParameterSpace
-from gemseo import create_discipline
-from gemseo.uncertainty.sensitivity.sobol.analysis import SobolAnalysis
+from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.uncertainty.sensitivity.sobol_analysis import SobolAnalysis
 from numpy import pi
 
 # %%
 # Firstly,
 # we create the Ishigami function:
-discipline = create_discipline(
-    "AnalyticDiscipline",
-    expressions={"y": "sin(x2)+7*sin(x1)**2+0.1*x3**4*sin(x2)"},
+discipline = AnalyticDiscipline(
+    {"y": "sin(x2)+7*sin(x1)**2+0.1*x3**4*sin(x2)"},
     name="Ishigami",
 )
 
@@ -53,13 +52,14 @@ for name in ["x1", "x2", "x3"]:
 #     *i.e* a maximum number of simulations,
 #     and then $N$ is deduced from this number: $N=\lceil n/(1+p)\rceil$.
 #
-sobol = SobolAnalysis([discipline], uncertain_space, 10000)
+sobol = SobolAnalysis()
+sobol.compute_samples([discipline], uncertain_space, 10000)
 sobol.compute_indices()
 
 # %%
 # and print the results:
-pprint.pprint(sobol.first_order_indices)
-pprint.pprint(sobol.total_order_indices)
+pprint.pprint(sobol.indices.first)
+pprint.pprint(sobol.indices.total)
 
 # %%
 # We can also visualize both first-order and total Sobol' indices

@@ -24,7 +24,7 @@ This will create a directory `"lh2pac"` in `"my_wd"`.
 In the directory `"lh2pac"`:
 
 ```
-git checkout origin/modia2024 -b my_modia2024  
+git checkout origin/modia2025 -b my_modia2025  
 ```
 
 #### Rebase your working branch
@@ -33,14 +33,14 @@ From time to time,
 I can update the _git_ project with miscellaneous information; 
 you will then have to rebase your branch.
 
-Make sure you are on `my_modia2024`; 
-otherwise: `git checkout my_modia2024`.
+Make sure you are on `my_modia2025`; 
+otherwise: `git checkout my_modia2025`.
 
 In the directory `"my_wd/lh2pac"`:
 
 ```
 git fetch origin
-git rebase origin/modia2024
+git rebase origin/modia2025
 ```
 
 ### Create a virtual environment (only once)

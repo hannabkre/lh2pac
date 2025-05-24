@@ -1,18 +1,21 @@
 # Important dates
 
-## Courses
-
-| Day      | Date       | Time        |
-|----------|------------|-------------|
-| Tuesday  | 28/05/2024 | 14h - 15h45 |
-| Tuesday  | 28/05/2024 | 16h15 - 18h |
-| Friday   | 31/05/2024 | 14h - 15h45 |
-| Friday   | 31/05/2024 | 16h15 - 18h |
-| Monday   | 03/06/2024 | 14h - 15h45 |
-| Monday   | 03/06/2024 | 16h15 - 18h |
-| Thursday | 03/06/2024 | 14h - 15h45 |
-| Thursday | 03/06/2024 | 16h15 - 18h |
-
 ## Evaluation
 
-Send the report at `matthias.delozzo@irt-saintexupery.com` by Tuesday, June 18 at the latest.
+Send the [deliverables](deliverables.md) at `matthias.delozzo@irt-saintexupery.com` by Friday, June 20th at the latest.
+
+## Courses
+
+| Day       | Date       | Time        | Room |
+|-----------|------------|-------------|------|
+| Tuesday   | 27/05/2024 | 14h - 15h45 | C102 |
+| Tuesday   | 27/05/2024 | 16h15 - 18h | C102 |
+| Monday    | 02/06/2024 | 14h - 15h45 | A003 |
+| Monday    | 02/06/2024 | 16h15 - 18h | A003 |
+| Thursday  | 05/06/2024 | 14h - 15h45 | C102 |
+| Thursday  | 05/06/2024 | 16h15 - 18h | C102 |
+| Wednesday | 11/06/2024 | 14h - 15h45 | C103 |
+| Wednesday | 11/06/2024 | 16h15 - 18h | C103 |
+
+
+

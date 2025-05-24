@@ -1,5 +1,5 @@
 """
-# Uncertain space
+# Create an uncertain space
 
 GEMSEO does not offer an uncertain space but a `ParameterSpace`,
 grouping both deterministic and uncertain variables.
@@ -16,9 +16,9 @@ we create an empty `ParameterSpace`
 from the high-level function `create_parameter_space`:
 """
 
-from gemseo import create_parameter_space
+from gemseo.algos.parameter_space import ParameterSpace
 
-uncertain_space = create_parameter_space()
+uncertain_space = ParameterSpace()
 
 # %%
 # and add a first uncertain variable $u$,
