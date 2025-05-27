@@ -25,6 +25,18 @@ def compute_area(width: float = 1., length: float = 1.) -> float:
 discipline = AutoPyDiscipline(compute_area)
 
 # %%
+# and check its inputs:
+list(discipline.io.input_grammar)
+
+# %%
+# outputs:
+list(discipline.io.output_grammar)
+
+# %%
+# and default input values:
+discipline.io.input_grammar.defaults
+
+# %%
 # By default,
 # its execution evaluates the Python functions using its default argument values:
 discipline.execute()
