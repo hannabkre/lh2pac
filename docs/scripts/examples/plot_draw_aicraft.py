@@ -16,3 +16,5 @@ draw_aircraft(area=200, title="Area = 200")
 # Lastly,
 # we draw an aircraft with a smaller wing area:
 draw_aircraft(area=80, title="Area = 80")
+
+# %%
