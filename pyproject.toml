@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dynamic = ["version"]
-requires-python = ">=3.9, <3.12"
+requires-python = ">=3.9, <3.13"
 dependencies = [
     "gemseo[all] >= 6.1.0",
     "gemseo-oad-training @ git+https://gitlab.com/gemseo/dev/gemseo-oad-training.git@develop",
