@@ -9,3 +9,4 @@ src/lh2pac/example/.pytest_cache
 src/lh2pac.egg-info
 docs/generated
 .venv
+docs/scripts/project/*.pkl
