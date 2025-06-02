@@ -47,6 +47,15 @@ surrogate_discipline = SurrogateDiscipline("RBFRegressor", training_dataset)
 surrogate_discipline.execute({"x": array([1.0])})
 
 # %%
+# !!! note
+#     When the first argument of the function ``sample_disciplines`` is a collection of disciplines,
+#     the function uses the MDF formulation for handling the multidisciplinary couplings.
+#     In other words,
+#     a DOE algorithm is used to create $N$ input samples
+#     and for each input sample,
+#     the disciplines are evaluated and the coupling equations are solved.
+
+# %%
 # This surrogate discipline can be used in a scenario.
 # The underlying regression model can also be assessed,
 # with the R2 measure for instance:
