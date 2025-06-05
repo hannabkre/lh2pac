@@ -1,3 +1,6 @@
+'''
+graou
+'''
 from gemseo_oad_training.models import aerodynamic
 from gemseo_oad_training.models import approach
 from gemseo_oad_training.models import battery
@@ -35,7 +38,7 @@ uncertain_space.add_random_variable("cef", "OTTriangularDistribution", minimum=0
 uncertain_space.add_random_variable("sef", "OTTriangularDistribution", minimum=0.99, mode=1, maximum=1.03)
 
 dataset = sample_disciplines(disciplines, uncertain_space, ["mtom"], algo_name="OT_MONTE_CARLO", n_samples=1000)
-
+to_pickle(dataset, "dataset.pkl")
 statistics = EmpiricalStatistics(dataset)
 mean = statistics.compute_mean()
 print(mean)
@@ -47,8 +50,8 @@ print(std)
 sobol = SobolAnalysis()
 samples = sobol.compute_samples(disciplines, uncertain_space, 1000)
 to_pickle(samples, "samples.pkl")
-sobol = SobolAnalysis("samples.pkl")
-sobol.compute_indices(output_names=["mtom"])
+
+
 
 
 
